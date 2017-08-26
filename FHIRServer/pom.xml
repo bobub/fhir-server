@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>kr.ac.knu.iilab</groupId>
-	<artifactId>iilab</artifactId>
+	<artifactId>FHIRServer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>iilab</name>
+	<name>FHIRServer</name>
 	<description>iilab FHIR Server</description>
 
 	<parent>
@@ -65,6 +65,13 @@
 		    <groupId>ca.uhn.hapi.fhir</groupId>
 		    <artifactId>hapi-fhir-structures-dstu3</artifactId>
 		    <version>2.5</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.1</version>
 		</dependency>
 
 		<!-- lombok -->

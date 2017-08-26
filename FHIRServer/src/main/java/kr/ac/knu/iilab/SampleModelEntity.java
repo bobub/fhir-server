@@ -1,4 +1,4 @@
-package kr.ac.knu.iilabcom;
+package kr.ac.knu.iilab;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
