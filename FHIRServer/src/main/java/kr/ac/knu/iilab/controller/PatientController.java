@@ -9,6 +9,7 @@ import org.hl7.fhir.dstu3.model.Patient;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,6 +45,14 @@ public class PatientController {
 		}
 		
 		return Utils.jsonParser.encodeResourceToString(bundle);
+	}
+	
+	@GetMapping(value="Patient/{_id}")
+	public String searchPatientById(
+			@PathVariable("_id") String _id) {
+		PatientEntity patientEntity = patientEntityRepository.findOne(Long.parseLong(_id));
+		
+		return patientEntity.getPatientResourceStr();
 	}
 	
 	@GetMapping(value="/test")

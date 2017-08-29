@@ -16,7 +16,7 @@ public class PatientEntity {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
 	@Column(columnDefinition="TEXT")
 	private String patientId;

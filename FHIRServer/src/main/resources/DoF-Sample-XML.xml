@@ -1,0 +1,272 @@
+<Bundle xmlns="http://hl7.org/fhir">
+    <type value="transaction"/>
+    <entry>
+        <fullUrl value="urn:uuid:5f5027b6-3a46-41e5-8d99-a31673b9429b"/>
+        <resource>
+            <Patient xmlns="http://hl7.org/fhir">
+                <identifier>
+                    <system value="http://www.vanilla.co.kr"/>
+                    <value value="patient001"/>
+                </identifier>
+                <active value="true"/>
+                <name>
+                    <use value="usual"/>
+                    <family value="Hong"/>
+                    <given value="Gil-Dong"/>
+                </name>
+                <telecom>
+                    <system value="phone"/>
+                    <value value="010-1111-2222"/>
+                    <use value="home"/>
+                </telecom>
+                <gender value="male"/>
+                <birthDate value="1985-01-01"/>
+            </Patient>
+        </resource>
+        <request>
+            <method value="POST"/>
+            <url value="Patient"/>
+        </request>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:6648f3ff-8a51-470a-863a-7605ee44e0bf"/>
+        <resource>
+            <Device xmlns="http://hl7.org/fhir">
+                <identifier>
+                    <system value="http://www.vanilla.co.kr"/>
+                    <value value="device001"/>
+                </identifier>
+                <status value="active"/>
+                <type>
+                    <coding>
+                        <system value="urn:iso:std:iso:11073:10101"/>
+                        <code value="4172"/>
+                        <display value="MDC_DEV_ANALY_PRESS_BLD"/>
+                    </coding>
+                </type>
+                <lotNumber value="20150301001"/>
+                <manufacturer value="VANILLA"/>
+                <manufactureDate value="1985-01-01"/>
+                <model value="BPM01"/>
+                <patient>
+                    <reference value="p1" />
+                </patient>
+            </Device>
+        </resource>
+        <request>
+            <method value="POST"/>
+            <url value="Device"/>
+        </request>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:67dcb184-78bf-44ad-b4b6-c8af157cde07"/>
+        <resource>
+            <DeviceComponent xmlns="http://hl7.org/fhir">
+                <identifier>
+                    <system value="http://www.vanilla.co.kr"/>
+                    <value value="mds001"/>
+                </identifier>
+                <type>
+                    <coding>
+                        <system value="urn:iso:std:iso:11073:10101"/>
+                        <code value="4173"/>
+                        <display value="MDC_DEV_ANALY_PRESS_BLD_MDS"/>
+                    </coding>
+                </type>
+                <lastSystemChange value="1985-01-01T00:00:00.000+09:00"/>
+                <source>
+                    <reference value="urn:uuid:6648f3ff-8a51-470a-863a-7605ee44e0bf"/>
+                </source>
+                <operationalStatus>
+                    <coding>
+                        <code value="on"/>
+                    </coding>
+                </operationalStatus>
+            </DeviceComponent>
+        </resource>
+        <request>
+            <method value="POST"/>
+            <url value="DeviceComponent"/>
+        </request>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:cabeec32-6b69-45df-abe8-fda51b867a23"/>
+        <resource>
+            <DeviceComponent xmlns="http://hl7.org/fhir">
+                <identifier>
+                    <system value="http://www.vanilla.co.kr"/>
+                    <value value="vmd001"/>
+                </identifier>
+                <type>
+                    <coding>
+                        <system value="urn:iso:std:iso:11073:10101"/>
+                        <code value="4174"/>
+                        <display value="MDC_DEV_ANALY_PRESS_BLD_VMD"/>
+                    </coding>
+                </type>
+                <lastSystemChange value="1985-01-01T00:00:00.000+09:00"/>
+                <source>
+                    <reference value="urn:uuid:6648f3ff-8a51-470a-863a-7605ee44e0bf"/>
+                </source>
+                <parent>
+                    <reference value="urn:uuid:67dcb184-78bf-44ad-b4b6-c8af157cde07"/>
+                </parent>
+                <operationalStatus>
+                    <coding>
+                        <code value="on"/>
+                    </coding>
+                </operationalStatus>
+            </DeviceComponent>
+        </resource>
+        <request>
+            <method value="POST"/>
+            <url value="DeviceComponent"/>
+        </request>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:bac755fc-5f70-45b0-aae8-15cbf6a4bdf1"/>
+        <resource>
+            <DeviceComponent xmlns="http://hl7.org/fhir">
+                <identifier>
+                    <system value="http://www.vanilla.co.kr"/>
+                    <value value="chan001"/>
+                </identifier>
+                <type>
+                    <coding>
+                        <system value="urn:iso:std:iso:11073:10101"/>
+                        <code value="4175"/>
+                        <display value="MDC_DEV_ANALY_PRESS_BLD_CHAN"/>
+                    </coding>
+                </type>
+                <lastSystemChange value="1985-01-01T04:00:00.000+09:00"/>
+                <source>
+                    <reference value="urn:uuid:6648f3ff-8a51-470a-863a-7605ee44e0bf"/>
+                </source>
+                <parent>
+                    <reference value="urn:uuid:cabeec32-6b69-45df-abe8-fda51b867a23"/>
+                </parent>
+                <operationalStatus>
+                    <coding>
+                        <code value="on"/>
+                    </coding>
+                </operationalStatus>
+            </DeviceComponent>
+        </resource>
+        <request>
+            <method value="POST"/>
+            <url value="DeviceComponent"/>
+        </request>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:2dd661d5-80b1-4276-9f7c-3c5afbe831ad"/>
+        <resource>
+            <DeviceMetric xmlns="http://hl7.org/fhir">
+                <identifier>
+                    <system value="http://www.vanilla.kr"/>
+                    <value value="metric001"/>
+                </identifier>
+                <type>
+                    <coding>
+                        <system value="https://rtmms.nist.gov"/>
+                        <code value="150020"/>
+                        <display value="MDC_PRESS_BLD_NONINV"/>
+                    </coding>
+                </type>
+                <unit>
+                    <coding>
+                        <system value="https://rtmms.nist.gov"/>
+                        <code value="266016"/>
+                        <display value="MDC_DIM_MMHG"/>
+                    </coding>
+                </unit>
+                <source>
+                    <reference value="urn:uuid:6648f3ff-8a51-470a-863a-7605ee44e0bf"/>
+                </source>
+                <parent>
+                    <reference value="urn:uuid:bac755fc-5f70-45b0-aae8-15cbf6a4bdf1"/>
+                </parent>
+                <operationalStatus value="on"/>
+                <category value="measurement"/>
+            </DeviceMetric>
+        </resource>
+        <request>
+            <method value="POST"/>
+            <url value="DeviceMetric"/>
+        </request>
+    </entry>
+    <entry>
+        <fullUrl value="urn:uuid:fcdb207b-f52c-4a43-8f4c-d2f5dc6c6ed6"/>
+        <resource>
+            <Observation xmlns="http://hl7.org/fhir">
+                <identifier>
+                    <system value="http://www.knu.ac.kr"/>
+                    <value value="bpm001"/>
+                </identifier>
+                <status value="registered"/>
+                <code>
+                    <coding>
+                        <system value="https://rtmms.nist.gov"/>
+                        <code value="150020"/>
+                        <display value="MDC_PRESS_BLD_NONINV"/>
+                    </coding>
+                </code>
+                <subject>
+                    <reference value="urn:uuid:5f5027b6-3a46-41e5-8d99-a31673b9429b"/>
+                </subject>
+                <effectiveDateTime value="1985-01-01"/>
+                <bodySite>
+                    <coding>
+                        <system value="http://snomed.info/sct"/>
+                        <code value="368209003"/>
+                    </coding>
+                </bodySite>
+                <device>
+                    <reference value="urn:uuid:2dd661d5-80b1-4276-9f7c-3c5afbe831ad"/>
+                </device>
+                <component>
+                    <code>
+                        <coding>
+                            <system value="https://rtmms.nist.gov"/>
+                            <code value="150021"/>
+                            <display value="MDC_PRESS_BLD_NONINV_SYS"/>
+                        </coding>
+                    </code>
+                    <valueQuantity>
+                        <value value="120"/>
+                        <unit value="mm[Hg]"/>
+                    </valueQuantity>
+                </component>
+                <component>
+                    <code>
+                        <coding>
+                            <system value="https://rtmms.nist.gov"/>
+                            <code value="150022"/>
+                            <display value="MDC_PRESS_BLD_NONINV_DIA"/>
+                        </coding>
+                    </code>
+                    <valueQuantity>
+                        <value value="80"/>
+                        <unit value="mm[Hg]"/>
+                    </valueQuantity>
+                </component>
+                <component>
+                    <code>
+                        <coding>
+                            <system value="https://rtmms.nist.gov"/>
+                            <code value="150023"/>
+                            <display value="MDC_PRESS_BLD_NONINV_MEAN"/>
+                        </coding>
+                    </code>
+                    <valueQuantity>
+                        <value value="100"/>
+                        <unit value="mm[Hg]"/>
+                    </valueQuantity>
+                </component>
+            </Observation>
+        </resource>
+        <request>
+            <method value="POST"/>
+            <url value="Observation"/>
+        </request>
+    </entry>
+</Bundle>
