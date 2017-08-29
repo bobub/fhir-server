@@ -12,17 +12,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-public class DeviceMetricEntity {
+public class DeviceEntity {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
 	@Column(columnDefinition="TEXT")
-	private String deviceMetricId;
+	private String deviceId;
 	
 	@Column(columnDefinition="TEXT")
-    private String deviceMetricResourceStr;
+    private String deviceResourceStr;
 	
 	@Column(columnDefinition="TEXT")
 	private String parentReference;

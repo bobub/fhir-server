@@ -9,4 +9,5 @@ import kr.ac.knu.iilab.model.PatientEntity;
 
 public interface ObservationEntityRepository extends CrudRepository<ObservationEntity, Long> {
 	List<ObservationEntity> findByObservationId(String observationId);
+	List<ObservationEntity> findBySubjectReference(String subjectReference);
 }

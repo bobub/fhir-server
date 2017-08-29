@@ -10,7 +10,7 @@ public class Utils {
 
 	public static IParser xmlParser = FhirContext.forDstu3().newXmlParser();
 	public static IParser jsonParser = FhirContext.forDstu3().newJsonParser();
-
+	
 	public static String resourceToJsonString(IBaseResource resource) {		
 		return FhirContext.forDstu3().newJsonParser().encodeResourceToString(resource);
 	}

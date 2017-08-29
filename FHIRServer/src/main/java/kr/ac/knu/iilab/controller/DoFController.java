@@ -6,6 +6,7 @@ import java.util.List;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.dstu3.model.Bundle.BundleType;
+import org.hl7.fhir.dstu3.model.Device;
 import org.hl7.fhir.dstu3.model.DeviceComponent;
 import org.hl7.fhir.dstu3.model.DeviceMetric;
 import org.hl7.fhir.dstu3.model.Observation;
@@ -28,11 +29,11 @@ import ca.uhn.fhir.parser.IParser;
 import kr.ac.knu.iilab.StringList;
 import kr.ac.knu.iilab.Utils;
 import kr.ac.knu.iilab.model.DeviceComponentEntity;
-import kr.ac.knu.iilab.model.DeviceMetricEntity;
+import kr.ac.knu.iilab.model.DeviceEntity;
 import kr.ac.knu.iilab.model.ObservationEntity;
 import kr.ac.knu.iilab.model.PatientEntity;
 import kr.ac.knu.iilab.repository.DeviceComponentEntityRepository;
-import kr.ac.knu.iilab.repository.DeviceMetricEntityRepository;
+import kr.ac.knu.iilab.repository.DeviceEntityRepository;
 import kr.ac.knu.iilab.repository.ObservationEntityRepository;
 import kr.ac.knu.iilab.repository.PatientEntityRepository;
 
@@ -46,10 +47,12 @@ public class DoFController {
 	private DeviceComponentEntityRepository deviceComponentEntityRepository;
 	
 	@Autowired
-	private DeviceMetricEntityRepository deviceMetricEntityRepository;
+	private DeviceEntityRepository deviceEntityRepository;
 	
 	@Autowired
 	private ObservationEntityRepository observationEntityRepository;
+	
+	private Gson gson = new Gson();
 	
 	/**
 	 * Device on FHIR
@@ -93,34 +96,33 @@ public class DoFController {
 				patientEntity.setPatientId(patientId);
 				patientEntity.setPatientResourceStr(parser.encodeResourceToString(patient));
 
-				// TODO: last_insert_id() is required
 				patientEntityRepository.save(patientEntity);
-				List<PatientEntity> p = patientEntityRepository.findByPatientId(patientId);
-				
-				entry.setFullUrl("Patient/" + p.get(p.size()-1).getId());
-				//patient.setId(p.get(p.size()-1).getId() + "");
+				entry.setFullUrl("Patient/" + patientEntity.getId());
 				
 				break;
 			case DeviceComponent:
 				DeviceComponent deviceComponent = (DeviceComponent) resource;
+				String deviceComponentId = deviceComponent.getIdElement().getIdPart();
 
 				DeviceComponentEntity deviceComponentEntity = new DeviceComponentEntity();
-				deviceComponentEntity.setDeviceComponentId(deviceComponent.getIdElement().getIdPart());
+				deviceComponentEntity.setDeviceComponentId(deviceComponentId);
 				deviceComponentEntity.setDeviceComponentResourceStr(parser.encodeResourceToString(deviceComponent));
 				deviceComponentEntity.setParentReference(deviceComponent.getParent().getReference());
 				
 				deviceComponentEntityRepository.save(deviceComponentEntity);
+				entry.setFullUrl("DeviceComponent/" + deviceComponentEntity.getId());
 				
 				break;
-			case DeviceMetric:
-				DeviceMetric deviceMetric = (DeviceMetric) resource;
+			case Device:	// delete
+				Device device = (Device) resource;
 
-				DeviceMetricEntity deviceMetricEntity = new DeviceMetricEntity();
-				deviceMetricEntity.setDeviceMetricId(deviceMetric.getIdElement().getIdPart());
-				deviceMetricEntity.setDeviceMetricResourceStr(parser.encodeResourceToString(deviceMetric));
-				deviceMetricEntity.setParentReference(deviceMetric.getParent().getReference());
+				DeviceEntity deviceEntity = new DeviceEntity();
+				deviceEntity.setDeviceId(device.getIdElement().getIdPart());
+				deviceEntity.setDeviceResourceStr(parser.encodeResourceToString(device));
+				deviceEntity.setParentReference(device.getPatient().getReference());
 				
-				deviceMetricEntityRepository.save(deviceMetricEntity);
+				deviceEntityRepository.save(deviceEntity);
+				entry.setFullUrl("Device/" + deviceEntity.getId());
 				
 				break;
 			case Observation:
@@ -131,13 +133,6 @@ public class DoFController {
 				observationEntity.setObservationResourceStr(parser.encodeResourceToString(observation));
 				observationEntity.setDeviceReference(observation.getDevice().getReference());
 				
-				Gson gson = new Gson();
-				StringList strList = new StringList();
-				for(int j=0; j<observation.getPerformer().size(); j++) {
-					strList.getStrList().add(observation.getPerformer().get(j).getReference());
-				}
-				//observationEntity.setPerformerReference(gson.toJson(strList));
-				
 				List<String> list = new ArrayList<String>();
 				for(int j=0; j<observation.getPerformer().size(); j++) {
 					list.add(observation.getPerformer().get(j).getReference());
@@ -147,6 +142,7 @@ public class DoFController {
 				observationEntity.setSubjectReference(observation.getSubject().getReference());
 				
 				observationEntityRepository.save(observationEntity);
+				entry.setFullUrl("Observation/" + observationEntity.getId());
 				
 				break;
 				
