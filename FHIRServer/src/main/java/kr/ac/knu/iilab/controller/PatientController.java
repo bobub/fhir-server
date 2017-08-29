@@ -34,6 +34,14 @@ public class PatientController {
 	 */
 	@GetMapping(value="/Patient")
 	public String search(@RequestParam(value="_id") String _id) {
+		
+		PatientEntity pe = patientEntityRepository.findByPatientId(_id);
+		if( pe == null ) {
+			return "Patient is not exist: " + _id;
+		}
+		
+		return pe.getPatientResourceStr();
+		/*
 		List<PatientEntity> patientEntityList = patientEntityRepository.findByPatientId(_id);
 		
 		Bundle bundle = new Bundle();
@@ -43,14 +51,14 @@ public class PatientController {
 			component.setResource(Utils.jsonParser.parseResource(Patient.class, patientEntityList.get(i).getPatientResourceStr()));
 			bundle.addEntry(component);
 		}
-		
 		return Utils.jsonParser.encodeResourceToString(bundle);
+		*/
 	}
 	
 	@GetMapping(value="Patient/{_id}")
 	public String searchPatientById(
 			@PathVariable("_id") String _id) {
-		PatientEntity patientEntity = patientEntityRepository.findOne(Long.parseLong(_id));
+		PatientEntity patientEntity = patientEntityRepository.findByPatientId(_id);
 		
 		return patientEntity.getPatientResourceStr();
 	}

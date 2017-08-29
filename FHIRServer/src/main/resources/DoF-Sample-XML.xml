@@ -1,272 +1,398 @@
 <Bundle xmlns="http://hl7.org/fhir">
-    <type value="transaction"/>
-    <entry>
-        <fullUrl value="urn:uuid:5f5027b6-3a46-41e5-8d99-a31673b9429b"/>
-        <resource>
-            <Patient xmlns="http://hl7.org/fhir">
-                <identifier>
-                    <system value="http://www.vanilla.co.kr"/>
-                    <value value="patient001"/>
-                </identifier>
-                <active value="true"/>
-                <name>
-                    <use value="usual"/>
-                    <family value="Hong"/>
-                    <given value="Gil-Dong"/>
-                </name>
-                <telecom>
-                    <system value="phone"/>
-                    <value value="010-1111-2222"/>
-                    <use value="home"/>
-                </telecom>
-                <gender value="male"/>
-                <birthDate value="1985-01-01"/>
-            </Patient>
-        </resource>
-        <request>
-            <method value="POST"/>
-            <url value="Patient"/>
-        </request>
-    </entry>
-    <entry>
-        <fullUrl value="urn:uuid:6648f3ff-8a51-470a-863a-7605ee44e0bf"/>
-        <resource>
-            <Device xmlns="http://hl7.org/fhir">
-                <identifier>
-                    <system value="http://www.vanilla.co.kr"/>
-                    <value value="device001"/>
-                </identifier>
-                <status value="active"/>
-                <type>
-                    <coding>
-                        <system value="urn:iso:std:iso:11073:10101"/>
-                        <code value="4172"/>
-                        <display value="MDC_DEV_ANALY_PRESS_BLD"/>
-                    </coding>
-                </type>
-                <lotNumber value="20150301001"/>
-                <manufacturer value="VANILLA"/>
-                <manufactureDate value="1985-01-01"/>
-                <model value="BPM01"/>
-                <patient>
-                    <reference value="p1" />
-                </patient>
-            </Device>
-        </resource>
-        <request>
-            <method value="POST"/>
-            <url value="Device"/>
-        </request>
-    </entry>
-    <entry>
-        <fullUrl value="urn:uuid:67dcb184-78bf-44ad-b4b6-c8af157cde07"/>
-        <resource>
-            <DeviceComponent xmlns="http://hl7.org/fhir">
-                <identifier>
-                    <system value="http://www.vanilla.co.kr"/>
-                    <value value="mds001"/>
-                </identifier>
-                <type>
-                    <coding>
-                        <system value="urn:iso:std:iso:11073:10101"/>
-                        <code value="4173"/>
-                        <display value="MDC_DEV_ANALY_PRESS_BLD_MDS"/>
-                    </coding>
-                </type>
-                <lastSystemChange value="1985-01-01T00:00:00.000+09:00"/>
-                <source>
-                    <reference value="urn:uuid:6648f3ff-8a51-470a-863a-7605ee44e0bf"/>
-                </source>
-                <operationalStatus>
-                    <coding>
-                        <code value="on"/>
-                    </coding>
-                </operationalStatus>
-            </DeviceComponent>
-        </resource>
-        <request>
-            <method value="POST"/>
-            <url value="DeviceComponent"/>
-        </request>
-    </entry>
-    <entry>
-        <fullUrl value="urn:uuid:cabeec32-6b69-45df-abe8-fda51b867a23"/>
-        <resource>
-            <DeviceComponent xmlns="http://hl7.org/fhir">
-                <identifier>
-                    <system value="http://www.vanilla.co.kr"/>
-                    <value value="vmd001"/>
-                </identifier>
-                <type>
-                    <coding>
-                        <system value="urn:iso:std:iso:11073:10101"/>
-                        <code value="4174"/>
-                        <display value="MDC_DEV_ANALY_PRESS_BLD_VMD"/>
-                    </coding>
-                </type>
-                <lastSystemChange value="1985-01-01T00:00:00.000+09:00"/>
-                <source>
-                    <reference value="urn:uuid:6648f3ff-8a51-470a-863a-7605ee44e0bf"/>
-                </source>
-                <parent>
-                    <reference value="urn:uuid:67dcb184-78bf-44ad-b4b6-c8af157cde07"/>
-                </parent>
-                <operationalStatus>
-                    <coding>
-                        <code value="on"/>
-                    </coding>
-                </operationalStatus>
-            </DeviceComponent>
-        </resource>
-        <request>
-            <method value="POST"/>
-            <url value="DeviceComponent"/>
-        </request>
-    </entry>
-    <entry>
-        <fullUrl value="urn:uuid:bac755fc-5f70-45b0-aae8-15cbf6a4bdf1"/>
-        <resource>
-            <DeviceComponent xmlns="http://hl7.org/fhir">
-                <identifier>
-                    <system value="http://www.vanilla.co.kr"/>
-                    <value value="chan001"/>
-                </identifier>
-                <type>
-                    <coding>
-                        <system value="urn:iso:std:iso:11073:10101"/>
-                        <code value="4175"/>
-                        <display value="MDC_DEV_ANALY_PRESS_BLD_CHAN"/>
-                    </coding>
-                </type>
-                <lastSystemChange value="1985-01-01T04:00:00.000+09:00"/>
-                <source>
-                    <reference value="urn:uuid:6648f3ff-8a51-470a-863a-7605ee44e0bf"/>
-                </source>
-                <parent>
-                    <reference value="urn:uuid:cabeec32-6b69-45df-abe8-fda51b867a23"/>
-                </parent>
-                <operationalStatus>
-                    <coding>
-                        <code value="on"/>
-                    </coding>
-                </operationalStatus>
-            </DeviceComponent>
-        </resource>
-        <request>
-            <method value="POST"/>
-            <url value="DeviceComponent"/>
-        </request>
-    </entry>
-    <entry>
-        <fullUrl value="urn:uuid:2dd661d5-80b1-4276-9f7c-3c5afbe831ad"/>
-        <resource>
-            <DeviceMetric xmlns="http://hl7.org/fhir">
-                <identifier>
-                    <system value="http://www.vanilla.kr"/>
-                    <value value="metric001"/>
-                </identifier>
-                <type>
-                    <coding>
-                        <system value="https://rtmms.nist.gov"/>
-                        <code value="150020"/>
-                        <display value="MDC_PRESS_BLD_NONINV"/>
-                    </coding>
-                </type>
-                <unit>
-                    <coding>
-                        <system value="https://rtmms.nist.gov"/>
-                        <code value="266016"/>
-                        <display value="MDC_DIM_MMHG"/>
-                    </coding>
-                </unit>
-                <source>
-                    <reference value="urn:uuid:6648f3ff-8a51-470a-863a-7605ee44e0bf"/>
-                </source>
-                <parent>
-                    <reference value="urn:uuid:bac755fc-5f70-45b0-aae8-15cbf6a4bdf1"/>
-                </parent>
-                <operationalStatus value="on"/>
-                <category value="measurement"/>
-            </DeviceMetric>
-        </resource>
-        <request>
-            <method value="POST"/>
-            <url value="DeviceMetric"/>
-        </request>
-    </entry>
-    <entry>
-        <fullUrl value="urn:uuid:fcdb207b-f52c-4a43-8f4c-d2f5dc6c6ed6"/>
-        <resource>
-            <Observation xmlns="http://hl7.org/fhir">
-                <identifier>
-                    <system value="http://www.knu.ac.kr"/>
-                    <value value="bpm001"/>
-                </identifier>
-                <status value="registered"/>
-                <code>
-                    <coding>
-                        <system value="https://rtmms.nist.gov"/>
-                        <code value="150020"/>
-                        <display value="MDC_PRESS_BLD_NONINV"/>
-                    </coding>
-                </code>
-                <subject>
-                    <reference value="urn:uuid:5f5027b6-3a46-41e5-8d99-a31673b9429b"/>
-                </subject>
-                <effectiveDateTime value="1985-01-01"/>
-                <bodySite>
-                    <coding>
-                        <system value="http://snomed.info/sct"/>
-                        <code value="368209003"/>
-                    </coding>
-                </bodySite>
-                <device>
-                    <reference value="urn:uuid:2dd661d5-80b1-4276-9f7c-3c5afbe831ad"/>
-                </device>
-                <component>
-                    <code>
-                        <coding>
-                            <system value="https://rtmms.nist.gov"/>
-                            <code value="150021"/>
-                            <display value="MDC_PRESS_BLD_NONINV_SYS"/>
-                        </coding>
-                    </code>
-                    <valueQuantity>
-                        <value value="120"/>
-                        <unit value="mm[Hg]"/>
-                    </valueQuantity>
-                </component>
-                <component>
-                    <code>
-                        <coding>
-                            <system value="https://rtmms.nist.gov"/>
-                            <code value="150022"/>
-                            <display value="MDC_PRESS_BLD_NONINV_DIA"/>
-                        </coding>
-                    </code>
-                    <valueQuantity>
-                        <value value="80"/>
-                        <unit value="mm[Hg]"/>
-                    </valueQuantity>
-                </component>
-                <component>
-                    <code>
-                        <coding>
-                            <system value="https://rtmms.nist.gov"/>
-                            <code value="150023"/>
-                            <display value="MDC_PRESS_BLD_NONINV_MEAN"/>
-                        </coding>
-                    </code>
-                    <valueQuantity>
-                        <value value="100"/>
-                        <unit value="mm[Hg]"/>
-                    </valueQuantity>
-                </component>
-            </Observation>
-        </resource>
-        <request>
-            <method value="POST"/>
-            <url value="Observation"/>
-        </request>
-    </entry>
+	<type value="transaction" />
+	<entry>
+		<fullUrl value="Patient/PatientId-sisansarahId" />
+		<resource>
+			<Patient xmlns="http://hl7.org/fhir">
+				<id value="PatientId-sisansarahId" />
+				<identifier>
+					<system value="http://hl7.org/fhir/v2/0203" />
+					<value value="MR" />
+				</identifier>
+				<active value="true" />
+				<name>
+					<use value="usual" />
+					<family value="ㅎ홍" />
+					<given value="길동" />
+				</name>
+				<telecom>
+					<system value="phone" />
+					<value value="010-1234-5678" />
+					<use value="home" />
+				</telecom>
+				<gender value="male" />
+				<birthDate value="1970-01-01" />
+			</Patient>
+		</resource>
+		<request>
+			<method value="PUT" />
+			<url value="Patient/PatientId-sisansarahId" />
+		</request>
+	</entry>
+
+	<entry>
+		<fullUrl value="DeviceComponent/SysId-feedabeedeadbeef" />
+		<resource>
+			<DeviceComponent xmlns="http://hl7.org/fhir">
+				<id value="SysId-feedabeedeadbeef" />
+				<extension
+					url="http://pcha.org/phd/documents/fhir/extensions/device-property">
+					<valueCodeableConcept>
+						<extension
+							url="http://pcha.org/phd/documents/fhir/extensions/code-value">
+							<valueCodeableConcept>
+								<coding>
+									<system value="urn:iso:std:iso:11073:10101" />
+									<code value="532226" />
+									<display value="MDC_TIME_SYNC_NTPV4: " />
+								</coding>
+							</valueCodeableConcept>
+						</extension>
+						<coding>
+							<system value="urn:iso:std:iso:11073:10101" />
+							<code value="68220" />
+							<display value="MDC_TIME_SYNC_PROTOCOL: Time synchronization protocol" />
+						</coding>
+					</valueCodeableConcept>
+				</extension>
+
+				<extension
+					url="http://pcha.org/phd/documents/fhir/extensions/device-property">
+					<valueCodeableConcept>
+						<extension
+							url="http://pcha.org/phd/documents/fhir/extensions/code-value">
+							<valueString value="5.0" />
+						</extension>
+						<coding>
+							<system value="urn:iso:std:iso:11073:10101" />
+							<code value="532352" />
+							<display value="MDC_REG_CERT_DATA_CONTINUA_VERSION: Continua Version" />
+						</coding>
+					</valueCodeableConcept>
+				</extension>
+
+				<extension
+					url="http://pcha.org/phd/documents/fhir/extensions/device-property">
+					<valueCodeableConcept>
+						<extension
+							url="http://pcha.org/phd/documents/fhir/extensions/code-value">
+							<valueCodeableConcept>
+								<coding>
+									<system value="http://pcha.org/phd/documents/reg-cert-codes" />
+									<code value="16388" />
+								</coding>
+							</valueCodeableConcept>
+						</extension>
+						<extension
+							url="http://pcha.org/phd/documents/fhir/extensions/code-value">
+							<valueCodeableConcept>
+								<coding>
+									<system value="http://pcha.org/phd/documents/reg-cert-codes" />
+									<code value="8196" />
+								</coding>
+							</valueCodeableConcept>
+						</extension>
+						<coding>
+							<system value="urn:iso:std:iso:11073:10101" />
+							<code value="532353" />
+							<display
+								value="MDC_REG_CERT_DATA_CONTINUA_CERT_DEV_LIST: certified device list as transport-specialization combo" />
+						</coding>
+					</valueCodeableConcept>
+				</extension>
+
+				<extension
+					url="http://pcha.org/phd/documents/fhir/extensions/device-property">
+					<valueCodeableConcept>
+						<extension
+							url="http://pcha.org/phd/documents/fhir/extensions/code-value">
+							<valueCodeableConcept>
+								<coding>
+									<system value="http://pcha.org/phd/documents/reg-cert-wan-codes" />
+									<code value="0" />
+								</coding>
+							</valueCodeableConcept>
+						</extension>
+						<extension
+							url="http://pcha.org/phd/documents/fhir/extensions/code-value">
+							<valueCodeableConcept>
+								<coding>
+									<system
+										value="http://pcha.org/phd/documents/fhir/extensions/code-value" />
+									<code value="7" />
+								</coding>
+							</valueCodeableConcept>
+						</extension>
+						<coding>
+							<system value="urn:iso:std:iso:11073:10101" />
+							<code value="532353" />
+							<display
+								value="MDC_REG_CERT_DATA_CONTINUA_AHD_CERT_LIST: certified Upload classes" />
+						</coding>
+					</valueCodeableConcept>
+				</extension>
+
+				<extension
+					url="http://pcha.org/phd/documents/fhir/extensions/device-property">
+					<valueCodeableConcept>
+						<extension
+							url="http://pcha.org/phd/documents/fhir/extensions/code-value">
+							<valueCodeableConcept>
+								<extension
+									url="http://pcha.org/phd/documents/fhir/extensions/code-value">
+									<valueCodeableConcept>
+										<coding>
+											<system value="http://hl7.org/fhir/v2/0136" />
+											<code value="y" />
+											<display value="Device is not regulated" />
+										</coding>
+									</valueCodeableConcept>
+								</extension>
+								<coding>
+									<system value="http://hl7.org/fhir/IEEE.ASN1" />
+									<code value="532354.0" />
+								</coding>
+							</valueCodeableConcept>
+						</extension>
+						<coding>
+							<system value="urn:iso:std:iso:11073:10101" />
+							<code value="532354" />
+							<display
+								value="MDC_REG_CERT_DATA_CONTINUA_REG_STATUS: Regulation status" />
+						</coding>
+					</valueCodeableConcept>
+				</extension>
+				<type>
+					<coding>
+						<system value="urn:iso:std:iso:11073:10101" />
+						<code value="531981" />
+						<display value="MDC_MOC_VMS_MDS_AHD" />
+					</coding>
+				</type>
+				<source>
+					<reference value="Device/SysId-1234567800112233" />
+				</source>
+				<identifier>
+					<system value="urn:oid:1.2.840.10004.1.1.1.0.0.1.0.0.1.2680" />
+					<value value="fe-ed-ab-ee-de-ad-be-ef" />
+					<assigner>
+						<display value="EUI-64" />
+					</assigner>
+				</identifier>
+			</DeviceComponent>
+		</resource>
+		<request>
+			<method value="PUT" />
+			<url value="DeviceComponent/SysId-feedabeedeadbeef" />
+		</request>
+	</entry>
+
+
+
+	<entry>
+		<fullUrl value="urn:oid:1.0.1" />
+		<resource>
+			<Observation xmlns="http://hl7.org/fhir">
+				<meta>
+					<profile
+						value="http://pchalliance.org/phdfhir/StructureDefinition/PhdCompoundNumericObservation" />
+				</meta>
+				<identifier>
+					<value
+						value="sisansarahId-urn:oid:1.2.3.4.5.6.7.8.10~1234567800112233~150020~20170817125456.000~105~70~81.7" />
+				</identifier>
+				<status value="final" />
+				<category>
+					<coding>
+						<system value="http://hl7.org/fhir/observation-category" />
+						<code value="vital-signs" />
+						<display value="Vital Signs" />
+					</coding>
+				</category>
+				<code>
+					<coding>
+						<system value="urn:iso:std:iso:11073:10101" />
+						<code value="150020" />
+						<display value="MDC_PRESS_BLD_NONINV" />
+					</coding>
+					<coding>
+						<system value="http://loinc.org" />
+						<code value="55284-4" />
+						<display value="Blood Pressure" />
+					</coding>
+				</code>
+				<subject>
+					<reference value="Patient/PatientId-sisansarahId" />
+				</subject>
+				<effectiveDateTime value="2017-08-17T12:54:57.950-04:00" />
+				<performer>
+					<reference value="Patient/PatientId-sisansarahId" />
+				</performer>
+				<device>
+					<reference value="Device/SysId-1234567800112233" />
+				</device>
+				<component>
+					<code>
+						<coding>
+							<system value="urn:iso:std:iso:11073:10101" />
+							<code value="150021" />
+							<display value="MDC_PRESS_BLD_NONINV_SYS" />
+						</coding>
+						<coding>
+							<system value="http://loinc.org" />
+							<code value="8480-6" />
+							<display value="Systolic blood pressure" />
+						</coding>
+					</code>
+					<valueQuantity>
+						<value value="105" />
+						<unit value="mmHg" />
+						<system value="urn:iso:std:iso:11073:10101" />
+						<code value="266016" />
+					</valueQuantity>
+				</component>
+				<component>
+					<code>
+						<coding>
+							<system value="urn:iso:std:iso:11073:10101" />
+							<code value="150022" />
+							<display value="MDC_PRESS_BLD_NONINV_DIA" />
+						</coding>
+						<coding>
+							<system value="http://loinc.org" />
+							<code value="8462-4" />
+							<display value="Diastolic blood pressure" />
+						</coding>
+					</code>
+					<valueQuantity>
+						<value value="70" />
+						<unit value="mmHg" />
+						<system value="urn:iso:std:iso:11073:10101" />
+						<code value="266016" />
+					</valueQuantity>
+				</component>
+				<component>
+					<code>
+						<coding>
+							<system value="urn:iso:std:iso:11073:10101" />
+							<code value="150023" />
+							<display value="MDC_PRESS_BLD_NONINV_MEAN" />
+						</coding>
+					</code>
+					<valueQuantity>
+						<value value="81.7" />
+						<unit value="mmHg" />
+						<system value="urn:iso:std:iso:11073:10101" />
+						<code value="266016" />
+					</valueQuantity>
+				</component>
+
+			</Observation>
+		</resource>
+		<request>
+			<method value="POST" />
+			<url value="Observation" />
+			<ifNoneExist
+				value="identifier=sisansarahId-urn:oid:1.2.3.4.5.6.7.8.10~1234567800112233~150020~20170817125456.000~105~70~81.7" />
+		</request>
+	</entry>
+
+	<entry>
+		<fullUrl value="urn:oid:1.0.0.1" />
+		<resource>
+			<Observation xmlns="http://hl7.org/fhir">
+				<meta>
+					<profile
+						value="http://pchalliance.org/phdfhir/StructureDefinition/PhdNumericObservation" />
+				</meta>
+				<identifier>
+					<value
+						value="sisansarahId-urn:oid:1.2.3.4.5.6.7.8.10~1234567800112233~149546~20170817125456.000~80" />
+				</identifier>
+				<status value="final" />
+				<category>
+					<coding>
+						<system value="http://hl7.org/fhir/observation-category" />
+						<code value="vital-signs" />
+						<display value="Vital Signs" />
+					</coding>
+				</category>
+				<code>
+					<coding>
+						<system value="urn:iso:std:iso:11073:10101" />
+						<code value="149546" />
+						<display value="MDC_PULS_RATE_NON_INV" />
+					</coding>
+					<coding>
+						<system value="http://loinc.org" />
+						<code value="8867-4" />
+						<display value="Blood Pressure cuff heart rate" />
+					</coding>
+				</code>
+				<subject>
+					<reference value="Patient/PatientId-sisansarahId" />
+				</subject>
+				<effectiveDateTime value="2017-08-17T12:54:57.950-04:00" />
+				<performer>
+					<reference value="Patient/PatientId-sisansarahId" />
+				</performer>
+				<valueQuantity>
+					<value value="70" />
+					<unit value="/min" />
+					<system value="urn:iso:std:iso:11073:10101" />
+					<code value="264864" />
+				</valueQuantity>
+				<device>
+					<reference value="Device/SysId-1234567800112233" />
+				</device>
+				<related id="coincidentTimeStampRelated">
+					<type value="qualified-by" />
+					<target>
+						<reference value="urn:oid:3.14159.20170817125454.950" />
+					</target>
+				</related>
+			</Observation>
+		</resource>
+		<request>
+			<method value="POST" />
+			<url value="Observation" />
+			<ifNoneExist
+				value="identifier=identifier=sisansarahId-urn:oid:1.2.3.4.5.6.7.8.10~1234567800112233~149546~20170817125456.000~80" />
+		</request>
+	</entry>
+
+	<entry>
+		<fullUrl value="Device/SysId-1234567800112233" />
+		<resource>
+			<Device xmlns="http://hl7.org/fhir">
+				<id value="SysId-1234567800112233" />
+				<identifier>
+					<use value="official" />
+					<system value="urn:oid:1.2.840.10004.1.1.1.0.0.1.0.0.1.2680" />
+					<value value="12-34-56-78-00-11-22-33" />
+					<assigner>
+						<display value="EUI-64" />
+					</assigner>
+				</identifier>
+				<status value="active" />
+				<type>
+					<coding>
+						<system value="urn:iso:std:iso:11073:10101" />
+						<code value="528391" />
+						<display value="MDC_DEV_SPEC_PROFILE_BP" />
+					</coding>
+				</type>
+				<lotNumber value="20150301001" />
+				<manufacturer value="Lamprey Networks" />
+				<model value="Blood Pressure 1.0.0" />
+				<patient>
+					<reference value="Patient/PatientId-sisansarahId" />
+				</patient>
+			</Device>
+		</resource>
+		<request>
+			<method value="PUT" />
+			<url value="Device/SysId-1234567800112233" />
+		</request>
+	</entry>
 </Bundle>
