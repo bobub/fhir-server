@@ -51,12 +51,32 @@ public class PatientController {
 		return Utils.resourceToXmlString((Resource) patient);
 	}
 	
+	@GetMapping(value="Patient")
+	public String searchByGiven(
+			@RequestParam(value="_given") String _given) {
+		List<PatientEntity> peList = patientEntityRepository.findByGiven(_given);
+		
+		Bundle bundle = new Bundle();
+		bundle.setType(BundleType.SEARCHSET);
+		for(int i=0; i<peList.size(); i++) {
+			BundleEntryComponent component = new BundleEntryComponent();
+			
+			Patient patient = Utils.xmlParser.parseResource(Patient.class, peList.get(i).getPatientResourceStr());
+			patient.setId(peList.get(i).getId() + "");
+			component.setResource(patient);
+			
+			bundle.addEntry(component);
+		}
+		return Utils.xmlParser.encodeResourceToString(bundle); 
+	}
+	
 	/**
 	 * GET [base]/Patient?_id=23
 	 * @param _id
 	 * @return	
 	 */
-	@GetMapping(value="/Patient")
+	/*
+	@GetMapping(value="Patient")
 	public String search(@RequestParam(value="_id") String _id) {
 		
 		PatientEntity pe = patientEntityRepository.findByPatientId(_id);
@@ -65,7 +85,7 @@ public class PatientController {
 		}
 		
 		return pe.getPatientResourceStr();
-		/*
+		
 		List<PatientEntity> patientEntityList = patientEntityRepository.findByPatientId(_id);
 		
 		Bundle bundle = new Bundle();
@@ -76,9 +96,9 @@ public class PatientController {
 			bundle.addEntry(component);
 		}
 		return Utils.jsonParser.encodeResourceToString(bundle);
-		*/
+		
 	}
-	
+	*/
 	@GetMapping(value="Patient/{_id}")
 	public String searchPatientById(
 			@PathVariable("_id") String _id) {

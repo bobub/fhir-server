@@ -8,6 +8,7 @@ import kr.ac.knu.iilab.model.PatientEntity;
 
 public interface PatientEntityRepository extends CrudRepository<PatientEntity, Long> {
 	PatientEntity findByPatientId(String patientId);
+	List<PatientEntity> findByGiven(String given);
 	//PatientEntity findByPatient(String patientId);
 	//PatientEntity 
 }
