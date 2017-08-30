@@ -95,21 +95,22 @@ public class DoFController {
 			switch( resource.getResourceType() ) {
 			case Patient:
 			case Device:
-			case DeviceComponent: 
+			case DeviceComponent:
+				/*
 				if( entry.getRequest().getMethod().compareTo(HTTPVerb.PUT) != 0 ) {
 					return "Patient, Device, DeviceComponent Resource must have Request with 'PUT' method";    
 				}
 				break;
+				*/
 			case Observation: 
 				if( entry.getRequest().getMethod().compareTo(HTTPVerb.POST) != 0 ) {
-					return "Observation Resource must have Request with 'POST' method";    
+					return "Patient, Device, DeviceComponent, Observation Resource must have Request with 'POST' method";    
 				}
 				break;
 			default:
 				return "DoF Resource must be contain 'Patient', 'Device', 'DeviceComponent', 'Observation'";
 			}
 		}
-		
 		
 		for(int i=0; i<bundle.getEntry().size(); i++) {
 			BundleEntryComponent entry = bundle.getEntry().get(i);
@@ -119,20 +120,19 @@ public class DoFController {
 			
 			switch ( resource.getResourceType() ) {
 			case Patient:	// only if "PUT"
+				 
+				/*
 				Patient patient = (Patient) resource;
 				String patientId = patient.getIdElement().getIdPart();
 				
 				//
 				// TODO: history 구현 안됨 
-				// 
+				//
 				if( patientEntityRepository.findByPatientId(patientId) == null ) {
 					return patientId + " is not exist.";
 				}
 				System.out.println(">> " + patientId + " is exist.");
-
-				/*	
-				 * patient 추가
-				 * 
+				*/ 
 				Patient patient = (Patient) resource;
 				String patientId = patient.getIdElement().getIdPart();
 				
@@ -141,12 +141,17 @@ public class DoFController {
 				patientEntity.setPatientResourceStr(parser.encodeResourceToString(patient));
 
 				patientEntityRepository.save(patientEntity);
+				
 				entry.setFullUrl("Patient/" + patientEntity.getId());
-				*/
+				patient.setId(patientEntity.getId() + "");
+				
 				break;
+				
 			case DeviceComponent:
+				/*
 				DeviceComponent deviceComponent = (DeviceComponent) resource;
 				String deviceComponentId = deviceComponent.getIdElement().getIdPart();
+				
 				// TODO: history ..
 				List<DeviceComponentEntity> dcList = deviceComponentEntityRepository.findByDeviceComponentId(deviceComponentId);
 				for(j=0; j<dcList.size(); j++) {
@@ -158,8 +163,11 @@ public class DoFController {
 					return deviceComponentId + " is not exist.";
 				}
 				System.out.println(">> " + deviceComponentId + " is exist.");
-
-				/*
+				 */
+				
+				DeviceComponent deviceComponent = (DeviceComponent) resource;
+				String deviceComponentId = deviceComponent.getIdElement().getIdPart();
+				
 				DeviceComponentEntity deviceComponentEntity = new DeviceComponentEntity();
 				deviceComponentEntity.setDeviceComponentId(deviceComponentId);
 				deviceComponentEntity.setDeviceComponentResourceStr(parser.encodeResourceToString(deviceComponent));
@@ -167,12 +175,15 @@ public class DoFController {
 				
 				deviceComponentEntityRepository.save(deviceComponentEntity);
 				entry.setFullUrl("DeviceComponent/" + deviceComponentEntity.getId());
-				*/
+				deviceComponent.setId(deviceComponentEntity.getId() + "");
+				
 				break;
+				
 			case Device:
 				Device device = (Device) resource;
 				String deviceId = device.getIdElement().getIdPart();
 				
+				/*
 				List<DeviceEntity> dList = deviceEntityRepository.findByDeviceId(deviceId);
 				for(j=0; j<dList.size(); j++) {
 					if( dList.get(j).getDeviceId().equals(deviceId) ) {
@@ -183,8 +194,7 @@ public class DoFController {
 					return deviceId + " is not exist.";
 				}
 				System.out.println(">> " + deviceId + " is exist.");
-				
-				/*
+				*/
 				DeviceEntity deviceEntity = new DeviceEntity();
 				deviceEntity.setDeviceId(device.getIdElement().getIdPart());
 				deviceEntity.setDeviceResourceStr(parser.encodeResourceToString(device));
@@ -192,7 +202,8 @@ public class DoFController {
 				
 				deviceEntityRepository.save(deviceEntity);
 				entry.setFullUrl("Device/" + deviceEntity.getId());
-				*/
+				device.setId(deviceEntity.getId() + "");
+				
 				break;
 			case Observation:
 				Observation observation = (Observation) resource;
@@ -212,6 +223,7 @@ public class DoFController {
 				
 				observationEntityRepository.save(observationEntity);
 				entry.setFullUrl("Observation/" + observationEntity.getId());
+				observation.setId(observationEntity.getId() + "");
 				
 				break;
 				
