@@ -3,6 +3,7 @@ package kr.ac.knu.iilab.controller;
 import static org.mockito.Matchers.endsWith;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.hl7.fhir.dstu3.model.Bundle;
@@ -14,6 +15,7 @@ import org.hl7.fhir.dstu3.model.DeviceComponent;
 import org.hl7.fhir.dstu3.model.DeviceMetric;
 import org.hl7.fhir.dstu3.model.Observation;
 import org.hl7.fhir.dstu3.model.Patient;
+import org.hl7.fhir.dstu3.model.Reference;
 import org.hl7.fhir.dstu3.model.Resource;
 import org.hl7.fhir.dstu3.model.ResourceType;
 import org.hl7.fhir.dstu3.model.codesystems.ContentType;
@@ -112,42 +114,90 @@ public class DoFController {
 			}
 		}
 		
+		/*
+		Patient
+		Device 
+		-------- Patient
+
+		DeviceComponent
+		-------- Device
+
+		Observation
+		-------- Patient
+		-------- Device
+		*/
+		
+		String patientReference = "none";
+		String deviceReference = "none";
+		
+		// Patient
 		for(int i=0; i<bundle.getEntry().size(); i++) {
 			BundleEntryComponent entry = bundle.getEntry().get(i);
 			Resource resource = bundle.getEntry().get(i).getResource();
 
 			int j;
-			
-			switch ( resource.getResourceType() ) {
-			case Patient:	// only if "PUT"
-				 
-				/*
-				Patient patient = (Patient) resource;
-				String patientId = patient.getIdElement().getIdPart();
-				
-				//
-				// TODO: history 구현 안됨 
-				//
-				if( patientEntityRepository.findByPatientId(patientId) == null ) {
-					return patientId + " is not exist.";
-				}
-				System.out.println(">> " + patientId + " is exist.");
-				*/ 
+			if( resource.getResourceType() == ResourceType.Patient) { 
 				Patient patient = (Patient) resource;
 				String patientId = patient.getIdElement().getIdPart();
 				
 				PatientEntity patientEntity = new PatientEntity();
 				patientEntity.setPatientId(patientId);
+				patientEntity.setGiven(patient.getName().get(0).getGiven().get(0).getValue());
 				patientEntity.setPatientResourceStr(parser.encodeResourceToString(patient));
 
 				patientEntityRepository.save(patientEntity);
 				
-				entry.setFullUrl("Patient/" + patientEntity.getId());
+				patientReference = "Patient/" + patientEntity.getId(); 
+				entry.setFullUrl(patientReference);
 				patient.setId(patientEntity.getId() + "");
+			}
+		}
+		
+
+		// Device
+		for(int i=0; i<bundle.getEntry().size(); i++) {
+			BundleEntryComponent entry = bundle.getEntry().get(i);
+			Resource resource = bundle.getEntry().get(i).getResource();
+
+			int j;
+			if( resource.getResourceType() == ResourceType.Device) {
+				Device device = (Device) resource;
+				String deviceId = device.getIdElement().getIdPart();
 				
-				break;
+				/*
+				List<DeviceEntity> dList = deviceEntityRepository.findByDeviceId(deviceId);
+				for(j=0; j<dList.size(); j++) {
+					if( dList.get(j).getDeviceId().equals(deviceId) ) {
+						break;
+					}
+				}
+				if(j == dList.size()) {
+					return deviceId + " is not exist.";
+				}
+				System.out.println(">> " + deviceId + " is exist.");
+				*/
+				DeviceEntity deviceEntity = new DeviceEntity();
+				deviceEntity.setDeviceId(device.getIdElement().getIdPart());
+				deviceEntity.setDeviceResourceStr(parser.encodeResourceToString(device));
+				deviceEntity.setParentReference(device.getPatient().getReference());
 				
-			case DeviceComponent:
+				deviceEntityRepository.save(deviceEntity);
+				
+				deviceReference = "Device/" + deviceEntity.getId(); 
+				entry.setFullUrl(deviceReference);
+				
+				device.setId(deviceEntity.getId() + "");
+				device.setPatient(new Reference(patientReference));
+			}
+		}
+
+		// DeviceComponent
+		for(int i=0; i<bundle.getEntry().size(); i++) {
+			BundleEntryComponent entry = bundle.getEntry().get(i);
+			Resource resource = bundle.getEntry().get(i).getResource();
+
+			int j;
+			if( resource.getResourceType() == ResourceType.DeviceComponent) { 
 				/*
 				DeviceComponent deviceComponent = (DeviceComponent) resource;
 				String deviceComponentId = deviceComponent.getIdElement().getIdPart();
@@ -174,38 +224,21 @@ public class DoFController {
 				deviceComponentEntity.setParentReference(deviceComponent.getParent().getReference());
 				
 				deviceComponentEntityRepository.save(deviceComponentEntity);
+				
 				entry.setFullUrl("DeviceComponent/" + deviceComponentEntity.getId());
+				
 				deviceComponent.setId(deviceComponentEntity.getId() + "");
-				
-				break;
-				
-			case Device:
-				Device device = (Device) resource;
-				String deviceId = device.getIdElement().getIdPart();
-				
-				/*
-				List<DeviceEntity> dList = deviceEntityRepository.findByDeviceId(deviceId);
-				for(j=0; j<dList.size(); j++) {
-					if( dList.get(j).getDeviceId().equals(deviceId) ) {
-						break;
-					}
-				}
-				if(j == dList.size()) {
-					return deviceId + " is not exist.";
-				}
-				System.out.println(">> " + deviceId + " is exist.");
-				*/
-				DeviceEntity deviceEntity = new DeviceEntity();
-				deviceEntity.setDeviceId(device.getIdElement().getIdPart());
-				deviceEntity.setDeviceResourceStr(parser.encodeResourceToString(device));
-				deviceEntity.setParentReference(device.getPatient().getReference());
-				
-				deviceEntityRepository.save(deviceEntity);
-				entry.setFullUrl("Device/" + deviceEntity.getId());
-				device.setId(deviceEntity.getId() + "");
-				
-				break;
-			case Observation:
+				deviceComponent.setSource(new Reference(deviceReference));
+			}
+		}
+
+		// Observation
+		for(int i=0; i<bundle.getEntry().size(); i++) {
+			BundleEntryComponent entry = bundle.getEntry().get(i);
+			Resource resource = bundle.getEntry().get(i).getResource();
+
+			int j;
+			if( resource.getResourceType() == ResourceType.Observation) {
 				Observation observation = (Observation) resource;
 
 				ObservationEntity observationEntity = new ObservationEntity();
@@ -224,6 +257,46 @@ public class DoFController {
 				observationEntityRepository.save(observationEntity);
 				entry.setFullUrl("Observation/" + observationEntity.getId());
 				observation.setId(observationEntity.getId() + "");
+				
+				observation.setPerformer(Arrays.asList(new Reference(patientReference)));
+				observation.setSubject(new Reference(patientReference));
+				observation.setDevice(new Reference(deviceReference));
+			}
+		}
+		
+		// no operation
+		for(int i=0; i<bundle.getEntry().size(); i++) {
+			BundleEntryComponent entry = bundle.getEntry().get(i);
+			Resource resource = bundle.getEntry().get(i).getResource();
+
+			int j;
+			
+			switch ( resource.getResourceType() ) {
+			case Patient:	// only if "PUT"
+				 
+				/*
+				Patient patient = (Patient) resource;
+				String patientId = patient.getIdElement().getIdPart();
+				
+				//
+				// TODO: history 구현 안됨 
+				//
+				if( patientEntityRepository.findByPatientId(patientId) == null ) {
+					return patientId + " is not exist.";
+				}
+				System.out.println(">> " + patientId + " is exist.");
+				*/
+				
+				break;
+				
+			case DeviceComponent:
+				
+				break;
+				
+			case Device:
+				
+				break;
+			case Observation:
 				
 				break;
 				
