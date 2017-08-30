@@ -138,10 +138,8 @@ public class DoFController {
 			int j;
 			if( resource.getResourceType() == ResourceType.Patient) { 
 				Patient patient = (Patient) resource;
-				String patientId = patient.getIdElement().getIdPart();
 				
 				PatientEntity patientEntity = new PatientEntity();
-				patientEntity.setPatientId(patientId);
 				patientEntity.setGiven(patient.getName().get(0).getGiven().get(0).getValue());
 				patientEntity.setPatientResourceStr(parser.encodeResourceToString(patient));
 
@@ -162,7 +160,6 @@ public class DoFController {
 			int j;
 			if( resource.getResourceType() == ResourceType.Device) {
 				Device device = (Device) resource;
-				String deviceId = device.getIdElement().getIdPart();
 				
 				/*
 				List<DeviceEntity> dList = deviceEntityRepository.findByDeviceId(deviceId);
@@ -177,7 +174,6 @@ public class DoFController {
 				System.out.println(">> " + deviceId + " is exist.");
 				*/
 				DeviceEntity deviceEntity = new DeviceEntity();
-				deviceEntity.setDeviceId(device.getIdElement().getIdPart());
 				deviceEntity.setDeviceResourceStr(parser.encodeResourceToString(device));
 				deviceEntity.setParentReference(device.getPatient().getReference());
 				
@@ -216,10 +212,10 @@ public class DoFController {
 				 */
 				
 				DeviceComponent deviceComponent = (DeviceComponent) resource;
-				String deviceComponentId = deviceComponent.getIdElement().getIdPart();
+			//	String deviceComponentId = deviceComponent.getIdElement().getIdPart();
 				
 				DeviceComponentEntity deviceComponentEntity = new DeviceComponentEntity();
-				deviceComponentEntity.setDeviceComponentId(deviceComponentId);
+			//	deviceComponentEntity.setDeviceComponentId(deviceComponentId);
 				deviceComponentEntity.setDeviceComponentResourceStr(parser.encodeResourceToString(deviceComponent));
 				deviceComponentEntity.setParentReference(deviceComponent.getParent().getReference());
 				
@@ -244,7 +240,8 @@ public class DoFController {
 				ObservationEntity observationEntity = new ObservationEntity();
 				observationEntity.setObservationId(observation.getIdElement().getIdPart());
 				observationEntity.setObservationResourceStr(parser.encodeResourceToString(observation));
-				observationEntity.setDeviceReference(observation.getDevice().getReference());
+				observationEntity.setDeviceReference(deviceReference);
+				observationEntity.setSubjectReference(patientReference);
 				
 				List<String> list = new ArrayList<String>();
 				for(j=0; j<observation.getPerformer().size(); j++) {
@@ -252,7 +249,6 @@ public class DoFController {
 				}
 				
 				observationEntity.setPerformerReference(gson.toJson(list));
-				observationEntity.setSubjectReference(observation.getSubject().getReference());
 				
 				observationEntityRepository.save(observationEntity);
 				entry.setFullUrl("Observation/" + observationEntity.getId());
