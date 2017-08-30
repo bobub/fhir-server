@@ -1,0 +1,19 @@
+<Patient xmlns="http://hl7.org/fhir">
+    <identifier>
+        <system value="http://www.vanilla.co.kr"/>
+        <value value="patient001"/>
+    </identifier>
+    <active value="true"/>
+    <name>
+        <use value="usual"/>
+        <family value="Hong"/>
+        <given value="Gil-Dong"/>
+    </name>
+    <telecom>
+        <system value="phone"/>
+        <value value="010-1111-2222"/>
+        <use value="home"/>
+    </telecom>
+    <gender value="male"/>
+    <birthDate value="1985-01-01"/>
+</Patient>

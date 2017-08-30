@@ -10,6 +10,8 @@ import org.hl7.fhir.dstu3.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +28,28 @@ public class PatientController {
 
 	@Autowired
 	private PatientEntityRepository patientEntityRepository;
+	
+	/**
+	 * 
+	 * @param patientResource
+	 * @return
+	 */
+	@PostMapping(value="Patient")
+	public String registerPatient(
+			@RequestBody(required=true) String patientResource) {
+		
+		PatientEntity patientEntity = new PatientEntity();
+		
+		Patient patient = (Patient) Utils.xmlParser.parseResource(patientResource);
+		patientEntity.setGiven(patient.getName().get(0).getGiven().get(0).getValue());
+		patientEntity.setPatientResourceStr(patientResource);
+		
+		patientEntityRepository.save(patientEntity);
+		
+		patient.setId(patientEntity.getId() + "");
+		
+		return Utils.resourceToXmlString((Resource) patient);
+	}
 	
 	/**
 	 * GET [base]/Patient?_id=23

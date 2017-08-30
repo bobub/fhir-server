@@ -19,6 +19,9 @@ public class PatientEntity {
     private Long id;
 
 	@Column(columnDefinition="TEXT")
+	private String given;
+	
+	@Column(columnDefinition="TEXT")
 	private String patientId;
 	
 	@Column(columnDefinition="TEXT")
