@@ -51,7 +51,7 @@ public class PatientController {
 		return Utils.resourceToXmlString((Resource) patient);
 	}
 	
-	@GetMapping(value="Patient")
+	@GetMapping(value="Patient/_search")
 	public String searchByGiven(
 			@RequestParam(value="_given") String _given) {
 		List<PatientEntity> peList = patientEntityRepository.findByGiven(_given);
